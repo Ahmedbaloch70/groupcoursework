@@ -1,65 +1,56 @@
 <html>
-
 <head>
-    <title>After Class Vue</title>
+    <title>Group1 Project</title>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
+
 <body>
     <div id="app">
         <header>
             <h1 v-text="sitename"></h1>
-            
-        </header>   
+        </header>
         <main>
-             <figure>
-                    <img v-bind:src="subject.image">
+            <div>
+                <figure>
+                    <img v-bind:src="product.image">
                 </figure>
-                <h2 v-text="subject.title"></h2>
-                <p v-html="subject.description"></p>
-                <p>Price: {{subject.price}}</p>
-                <p>Available stock: {{subject.availableInventory  }}</p>
-                <!-- <button v-on:click="addToCart" 
-                v-show='canAddToCart'>
-                    Add to cart
-                </button> -->
+                <h2 v-text="product.title"></h2>
+                <p v-html="product.location"></p>
+                <p>Price: {{product.price}}</p>
+                <p>Number of spaces: {{product.availableInventory  }}</p>
                 <button v-on:click='addToCart' v-if='canAddToCart'>Add to cart</button>
                 <button disabled="disabled" v-else>Add to cart</button>
+            </div>
         </main>
-    </div>
-       
+    </div> 
+
     <script type="text/javascript">
         var webstore = new Vue({
             el: '#app',
             data: {
                 sitename: 'After School Club',
                 product: {
-                    subject:"Math",
-                    location:"London",
+                    id: 1001,
+                    title: "Math",
+                    location: "London",
                     price: 100,
-                    numberofspaces: 5,
-                    image: "math.png"
+                    image: "math.png",
+                    availableInventory: 5
                 },
                 cart: [],
-                showsubject: true,
+                showProduct: true,
             },
             methods: {
                 addToCart() {
-                    this.cart.push(this.subject.id);
-                    // console.log(this.cart)
-                },
-                showCheckout() {
-                    // console.log(this.showProduct);
-                    this.showsubject = this.showsubject ?  false : true;
+                    this.cart.push(this.product.id);
+                    this.product.availableInventory -= 1;
                 },
             },
             computed: {
-                cartItemCount() {
-                    return this.cart.length ;
-                },
                 canAddToCart() {
-                    return this.showsubject.availableInventory > this.cartItemCount;
+                    return this.product.availableInventory > 0;
                 }
             },
         });
